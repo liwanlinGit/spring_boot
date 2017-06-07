@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.desc.www.mapper.UserMapper">
+<cache type="cn.desc.www.util.RedisCache" />
+		  <resultMap id="UserMaps" type="cn.desc.www.entity.User">
+		    <id column="ID" property="id" />
+		    <result column="NAME"  property="name" />
+		  </resultMap>
+		  
+		  <select id="findUserList" parameterType="java.lang.String" resultMap="UserMaps">
+		    select * from user
+		  </select>	  
+		  <select id="insertUser" parameterType="cn.desc.www.entity.User">
+		    insert into user(id,name) values(#{id},#{name})
+		  </select> 
+		  <select id="deleteUser" parameterType="java.lang.String">
+		    delete from user where id=#{id}
+		  </select>		   
+</mapper>
