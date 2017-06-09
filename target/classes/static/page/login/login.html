@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>登录</title>
+<link href="/dwz/themes/css/login.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/dwz/js/jquery-1.7.2.js"></script>
+<script type="text/javascript">
+function login(){
+	var userNo=$("#userNo").val();
+	var password=$("#password").val();
+	$.ajax( {    
+	    url:'/login/login.html',
+	    type:'post',
+	    dataType:'json',
+	    data:{'userNo':userNo,'password':password},
+	    success:function(data) {
+	    	if(data.flg=="ok"){
+	    		location.href="/page/index/index.html";
+	    	}else{
+	    		$("#userNoMsg").html(data.userNoMsg);
+          $("#userPwdMsg").html(data.userPwdMsg);
+	        $("#errorMsg").html(data.errorMsg);
+	    	}
+	    },    
+	    error : function() {    
+         alert("异常！");    
+	    }    
+	});
+}
+</script>
+<style type="text/css">
+.info{font-size: 12px;color: red;margin-left: 80px;}
+</style>
+</head>
+<body>
+  <div id="login">
+    <div id="login_header">
+      <h1 class="login_logo">
+        <a style="font-size:25px">管理后台</a>
+      </h1>
+      <div class="login_headerContent">
+        <div class="navList">
+          <ul>
+            <li><a href="#" target="_blank"></a></li>
+          </ul>
+        </div>
+        <h2 class="login_title" style="font-size:16px">用户登录</h2>
+      </div>
+    </div>
+    <div id="login_content">
+      <div class="loginForm">
+        <form  method="post">
+          <p>
+            <label>用户名：</label>
+            <input name="userNo" id="userNo" value="admin" type="text" style="width:140px;height:20px;" class="login_input" />
+            <br/>
+            <span class="info" id="userNoMsg"></span>
+          </p>
+          <p>
+            <label>密&nbsp;&nbsp;&nbsp;码：</label>
+            <input name="userPwd" id="password" autocomplete="off" type="password" style="width:140px;height:20px;" class="login_input" value="123456" />
+            <br/>
+            <span class="info" id="userPwdMsg"></span>
+          </p>
+          <p><br/><span class="info" id="errorMsg"></span></p>
+          <div class="login_bar" style="margin-left:10px;">
+            <input class="sub" type="button" onclick="login();"/>
+          </div>
+        </form>
+      </div>
+      <div class="login_banner"><img src="/dwz/themes/default/images/login_banner.jpg" /></div>
+      <div class="login_main">
+        <ul class="helpList">
+          <li><a href="#">测试帐号：admin</a></li>
+          <li><a href="#">默认密码：123456</a></li>
+        </ul>  
+      </div>
+    </div>
+    <div id="login_footer">
+      Copyright &copy; 2016 LiWanLin
+    </div>
+  </div>
+</body>
+</html>

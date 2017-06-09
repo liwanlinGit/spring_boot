@@ -1,19 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.desc.www.mapper.UserMapper">
-<cache type="cn.desc.www.util.RedisCache" />
-		  <resultMap id="UserMaps" type="cn.desc.www.entity.User">
-		    <id column="ID" property="id" />
-		    <result column="NAME"  property="name" />
-		  </resultMap>
-		  
-		  <select id="findUserList" parameterType="java.lang.String" resultMap="UserMaps">
-		    select * from user
-		  </select>	  
-		  <select id="insertUser" parameterType="cn.desc.www.entity.User">
-		    insert into user(id,name) values(#{id},#{name})
-		  </select> 
-		  <select id="deleteUser" parameterType="java.lang.String">
-		    delete from user where id=#{id}
-		  </select>		   
+
+  <!-- 用户信息表 -->
+  <sql id="pms_user"> edu_edmo_pms_user </sql>
+
+  <resultMap id="beanMap" type="cn.desc.www.entity.User">
+    <id column="id" property="id" />
+    <result column="version" property="version" />
+    <result column="main_user_id" property="mainUserId" />
+    <result column="user_no" property="userNo" />
+    <result column="user_pwd" property="userPwd" />
+    <result column="create_time" property="createTime" />
+    <result column="user_name" property="userName" />
+    <result column="email" property="email" />
+    <result column="mobile_no" property="mobileNo" />
+    <result column="status" property="status" />
+    <result column="user_type" property="userType" />
+    <result column="last_login_time" property="lastLoginTime" />
+    <result column="is_changed_pwd" property="isChangedPwd" javaType="Boolean" jdbcType="INTEGER"/>
+    <result column="pwd_error_count" property="pwdErrorCount" />
+    <result column="pwd_error_time" property="pwdErrorTime" />
+    <result column="remark" property="remark" />
+  </resultMap>
+  
+  <insert id="insert" parameterType="cn.desc.www.entity.User" keyProperty="id" useGeneratedKeys="true">
+    insert into <include refid="pms_user"/> (version, create_time, main_user_id, user_name, user_no,user_pwd, 
+    email, mobile_no, status, user_type, last_login_time, is_changed_pwd, pwd_error_count, pwd_error_time,remark) 
+    values (0, NOW(), #{mainUserId}, #{userName}, #{userNo},#{userPwd}, #{email}, #{mobileNo}, #{status}, #{userType}, 
+    #{lastLoginTime}, #{isChangedPwd,javaType=Boolean,jdbcType=INTEGER}, 0, #{pwdErrorTime}, #{remark})
+  </insert>
+  
+  <update id="updateUser" parameterType="cn.desc.www.entity.User">
+    update <include refid="pms_user"/>
+    <set>     
+      version = #{version}+1,
+      last_login_time=#{lastLoginTime},
+      pwd_error_count=#{pwdErrorCount}
+    </set>
+    <where>
+      ID = #{id}
+    </where>
+  </update>
+  
+  
+    <select id="getById" flushCache="true" parameterType="long" resultMap="beanMap">
+      select * from <include refid="pms_user"/> where id = #{id} 
+    </select>
+    
+    <select id="findUserByUserNo" parameterType="string" resultMap="beanMap">
+      select * from <include refid="pms_user"/> where user_no= #{userNo}
+    </select>
+    
+    <select id="listAll" resultMap="beanMap">
+      select * from <include refid="pms_user"/> order by id
+    </select>
+    
+    <delete id="deleteById" parameterType="long">
+      delete from <include refid="pms_user"/> where id = #{id}
+    </delete>
+
+  <sql id="condition_sql">
+    <!-- Equal query -->
+    <if test="mainUserId != null and mainUserId != ''"> and main_user_id = #{mainUserId}</if>
+    <if test="status != null and status != ''"> and status = #{status}</if>
+    <if test="userNo != null and userNo != ''"> and user_no = #{userNo}</if>
+    <!-- Like query -->
+    <if test="userName != null and userName != ''"> and user_name like CONCAT(CONCAT('%', #{userName}), '%')</if>
+  </sql>
+  
+  <select id="listPage" parameterType="java.util.Map" resultMap="beanMap">
+    select * from  
+    <include refid="pms_user"/>
+    
+    <where>
+      <include refid="condition_sql" />
+    </where>
+    order by id desc 
+    limit #{pageFirst} , #{pageSize} 
+  </select>
+  
+  <select id="listPageCount" parameterType="java.util.Map" resultType="long">
+    select count(1) from <include refid="pms_user"/>
+    <where>
+      <include refid="condition_sql"/>
+    </where>
+  </select>
+  
 </mapper>

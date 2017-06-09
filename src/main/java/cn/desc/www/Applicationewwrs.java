@@ -8,8 +8,7 @@ import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
 @MapperScan("cn.desc.www.mapper")
-@Configuration
-@ImportResource(locations={"classpath:spring-redis.xml"})
+/*@ImportResource(locations={"classpath:spring-redis.xml"}) //   RedisConfig 类 等于spring-redis.xml配置*/
 public class Applicationewwrs {
   public static void main(String[] args) {
 		SpringApplication.run(Applicationewwrs.class);

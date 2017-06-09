@@ -11,7 +11,7 @@ import cn.desc.www.mapper.UserMapper;
 import cn.desc.www.service.UserService;
 import cn.desc.www.util.ExceptionUtil;
 @Transactional
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper mapper;
@@ -38,6 +38,18 @@ public class UserServiceImpl implements UserService {
 				mapper.insertUser(user);
 				mapper.deleteUser(user.getId());
 		}
+
+    @Override
+    public void updateUser(User user) {
+      mapper.updateUser(user);
+      
+    }
+
+
+    @Override
+    public User findUserByUserNo(String userNo) {
+      return mapper.findUserByUserNo(userNo);
+    }
     
     
     
