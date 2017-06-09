@@ -69,6 +69,17 @@ $(function(){
       $("#themeList").theme({themeBase:"/dwz/themes"}); // themeBase 相对于index页面的主题base路径
     }
   });
+  $.ajax( {    
+      url:'/index/getUser.html',
+      type:'post',
+      dataType:'json',
+      success:function(data) {
+    	  var newDate = new Date();
+        newDate.setTime(data.lastLoginTime);
+    	  $("#userName").text(data.userName);
+    	  $("#lastDate").text(newDate.toLocaleString())
+      }
+  });
 });
 
 </script>
@@ -79,8 +90,7 @@ $(function(){
         <!-- navMenu begin -->
       <div class="headerNav">
         <ul class="nav">
-          <li style="color:black;">欢迎您（${userNo }）！&nbsp;上次登录：<s:date name="lastLoginTime" format="yyyy年MM月dd日  HH时mm分ss秒" /> </li>
-          <li><a href="javascript:" style="color:black;">${userNo}</a></li>
+          <li style="color:black;">欢迎您（<span id="userName"></span>）！&nbsp;上次登录：<span id="lastDate"></span></li>
           <li><a href="pms_userViewOwnInfo.action" target="dialog" width="500" height="400" style="color:#fff;">帐号信息</a></li>
           <li><a href="pms_userChangeOwnPwdUI.action" target="dialog" width="550" height="300" style="color:#fff;">修改密码</a></li>
           <li>

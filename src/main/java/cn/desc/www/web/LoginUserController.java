@@ -3,12 +3,21 @@ package cn.desc.www.web;
 
 import java.util.Date;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.desc.www.configbean.RedisConfig;
 import cn.desc.www.entity.User;
 import cn.desc.www.service.UserService;
+import cn.desc.www.util.SerializeUtil;
 
 
 @RestController
@@ -16,6 +25,8 @@ import cn.desc.www.service.UserService;
 public class LoginUserController {
   @Autowired
   private UserService userService;
+  @Autowired
+  private JedisConnectionFactory jedisConnectionFactory;
   @RequestMapping("/login")
   public String login(String userNo,String password){
     String userNoMsg="";
@@ -27,6 +38,8 @@ public class LoginUserController {
          User user = userService.findUserByUserNo(userNo);
          if(user!=null){
             if(user.getUserPwd().equals(password)){
+              RedisConnection connection = jedisConnectionFactory.getConnection();
+              connection.set("user".getBytes(),SerializeUtil.serialize(user));
               user.setLastLoginTime(new Date());
               user.setPwdErrorCount(0);
               userService.updateUser(user);
