@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.desc.www.mapper.UserMapper">
-
+  <cache type="cn.desc.www.util.RedisCache" />
   <!-- 用户信息表 -->
   <sql id="pms_user"> edu_edmo_pms_user </sql>
 

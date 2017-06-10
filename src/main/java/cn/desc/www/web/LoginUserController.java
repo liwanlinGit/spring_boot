@@ -25,10 +25,10 @@ import cn.desc.www.util.SerializeUtil;
 public class LoginUserController {
   @Autowired
   private UserService userService;
-  @Autowired
-  private JedisConnectionFactory jedisConnectionFactory;
+ /* @Autowired  //临时调用redis存储数据
+  private JedisConnectionFactory jedisConnectionFactory;*/
   @RequestMapping("/login")
-  public String login(String userNo,String password){
+  public String login(String userNo,String password,HttpServletRequest request){
     String userNoMsg="";
     String userPwdMsg="";
     String errorMsg="";
@@ -38,8 +38,11 @@ public class LoginUserController {
          User user = userService.findUserByUserNo(userNo);
          if(user!=null){
             if(user.getUserPwd().equals(password)){
-              RedisConnection connection = jedisConnectionFactory.getConnection();
-              connection.set("user".getBytes(),SerializeUtil.serialize(user));
+            /* 临时调用redis存储数据
+             *  RedisConnection connection = jedisConnectionFactory.getConnection();
+              connection.set("user".getBytes(),SerializeUtil.serialize(user));*/
+            	String srtr =  request.getSession().getId();
+            	System.out.println(srtr);
               user.setLastLoginTime(new Date());
               user.setPwdErrorCount(0);
               userService.updateUser(user);

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: spring_boot_demo
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: ￦ﾝﾎ￤ﾸﾇ￦ﾞﾗ
+Built-By: lwl
 Implementation-Vendor-Id: cn.boot.www
 Build-Jdk: 1.8.0_101
 Implementation-URL: http://maven.apache.org

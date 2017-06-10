@@ -4,10 +4,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import cn.desc.www.util.RedisCacheTransfer;
 import redis.clients.jedis.JedisPoolConfig;
 @Configuration
+@EnableRedisHttpSession   //session共享
 @ConfigurationProperties(prefix="spring.redis")
 public class RedisConfig {
   private String host;
@@ -29,6 +31,7 @@ public class RedisConfig {
     return jedisPoolConfig;
   }
   //redis的org.springframework.data.redis.connection.jedis.JedisConnectionFactory配置
+  //如果需要有session 共享 此类就是共享session核心 
   @Bean
   public JedisConnectionFactory jedisConnectionFactory(){
     JedisConnectionFactory connectionFactory=new  JedisConnectionFactory();
