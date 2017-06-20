@@ -56,6 +56,10 @@
 <script src="/dwz/js/dwz.combox.js" type="text/javascript"></script>
 <script src="/dwz/js/dwz.print.js" type="text/javascript"></script>
 <script src="/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
+<style type="text/css">
+    #header{height:90px}
+    #leftside, #container, #splitBar, #splitBarProxy{top:90px}
+</style>
 <script type="text/javascript">
 $(function(){
   DWZ.init("/dwz/dwz.frag.xml", {
@@ -74,6 +78,7 @@ $(function(){
       type:'post',
       dataType:'json',
       success:function(data) {
+    	  /* alert(JSON.stringify(data)) */
     	  var newDate = new Date();
         newDate.setTime(data.lastLoginTime);
     	  $("#userName").text(data.userName);
@@ -106,7 +111,16 @@ $(function(){
         </ul>
       </div>
       <!-- navMenu end -->
-      
+      <div id="navMenu">
+          <ul>
+            <li class="selected"><a href="sidebar_1.html"><span>资讯管理</span></a></li>
+            <li><a href="sidebar_2.html"><span>订单管理</span></a></li>
+            <li><a href="sidebar_1.html"><span>产品管理</span></a></li>
+            <li><a href="sidebar_2.html"><span>会员管理</span></a></li>
+            <li><a href="sidebar_1.html"><span>服务管理</span></a></li>
+            <li><a href="sidebar_2.html"><span>系统设置</span></a></li>
+          </ul>
+        </div>
     </div>
 
     <div id="leftside">
@@ -125,9 +139,20 @@ $(function(){
           <div class="accordionContent">
             <ul class="tree treeFolder">
               <li><a href="pms_listPmsUser.action" target="navTab" rel="listPmsUser" fresh="true">用户信息管理</a></li>
+              <li><a href="pms_listPmsUser.action" target="navTab" rel="listPmsUser" fresh="true">用户信息管理</a></li>
+              <li><a href="pms_listPmsUser.action" target="navTab" rel="listPmsUser" fresh="true">用户信息管理</a></li>
             </ul>
           </div>
-          
+          <div class="accordionHeader">
+            <h2><span>Folder</span>用户管理</h2>
+          </div>
+          <div class="accordionContent">
+            <ul class="tree treeFolder">
+              <li><a href="pms_listPmsUser.action" target="navTab" rel="listPmsUser" fresh="true">用户信息管理</a></li>
+              <li><a href="pms_listPmsUser.action" target="navTab" rel="listPmsUser" fresh="true">用户信息管理</a></li>
+              <li><a href="pms_listPmsUser.action" target="navTab" rel="listPmsUser" fresh="true">用户信息管理</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

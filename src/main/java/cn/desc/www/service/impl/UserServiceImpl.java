@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.desc.www.entity.User;
 import cn.desc.www.mapper.UserMapper;
 import cn.desc.www.service.UserService;
-import cn.desc.www.util.ExceptionUtil;
 @Transactional
 @Service("userService")
 public class UserServiceImpl implements UserService {

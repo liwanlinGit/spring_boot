@@ -1,4 +1,4 @@
-package cn.desc.www.util;
+package cn.desc.www.util.serialize;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

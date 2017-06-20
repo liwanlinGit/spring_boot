@@ -1,4 +1,4 @@
-package cn.desc.www.util;
+package cn.desc.www.util.rediscache;
 
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-import cn.desc.www.util.RedisCacheTransfer;
+import cn.desc.www.util.rediscache.RedisCacheTransfer;
 import redis.clients.jedis.JedisPoolConfig;
 @Configuration
 @EnableRedisHttpSession   //session共享

@@ -3,21 +3,15 @@ package cn.desc.www.web;
 
 import java.util.Date;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.desc.www.configbean.RedisConfig;
 import cn.desc.www.entity.User;
 import cn.desc.www.service.UserService;
-import cn.desc.www.util.SerializeUtil;
+import cn.desc.www.util.rediscache.usercache.CacheUser;
 
 
 @RestController
@@ -25,8 +19,8 @@ import cn.desc.www.util.SerializeUtil;
 public class LoginUserController {
   @Autowired
   private UserService userService;
- /* @Autowired  //临时调用redis存储数据
-  private JedisConnectionFactory jedisConnectionFactory;*/
+  @Autowired
+  private CacheUser cacheUser;
   @RequestMapping("/login")
   public String login(String userNo,String password,HttpServletRequest request){
     String userNoMsg="";
@@ -35,14 +29,14 @@ public class LoginUserController {
     String flg="no";
     if(userNo!=null&&!"".equals(userNo.trim())){
        if(password!=null&&!"".equals(password)){
-         User user = userService.findUserByUserNo(userNo);
+         User user= userService.findUserByUserNo(userNo);
          if(user!=null){
             if(user.getUserPwd().equals(password)){
-            /* 临时调用redis存储数据
-             *  RedisConnection connection = jedisConnectionFactory.getConnection();
-              connection.set("user".getBytes(),SerializeUtil.serialize(user));*/
-            	String srtr =  request.getSession().getId();
-            	System.out.println(srtr);
+              String srtr =  request.getSession().getId();
+              System.out.println(srtr);
+              request.getSession().setAttribute("user", user);
+              //临时调用redis存储数据
+              //cacheUser.setUser(request.getSession().getId(), user);
               user.setLastLoginTime(new Date());
               user.setPwdErrorCount(0);
               userService.updateUser(user);
